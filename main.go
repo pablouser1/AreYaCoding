@@ -1,8 +1,12 @@
 package main
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/pablouser1/AreYaCoding/helpers"
 	"github.com/pablouser1/AreYaCoding/middlewares"
 	"github.com/pablouser1/AreYaCoding/models"
 	"github.com/pablouser1/AreYaCoding/routes/auth"
@@ -13,7 +17,8 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		return
+		fmt.Fprintln(os.Stderr, "Could not load .env ->", err.Error())
+		os.Exit(1)
 	}
 
 	models.ConnectDatabase()
@@ -43,5 +48,11 @@ func main() {
 		}
 	}
 
-	r.Run("localhost:3001")
+	port := fmt.Sprintf(":%s", helpers.GetEnv("PORT", "8080"))
+
+	err = r.Run(port)
+
+	if err != nil {
+		fmt.Println(err)
+	}
 }

@@ -1,6 +1,9 @@
 package models
 
 import (
+	"fmt"
+	"os"
+
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -8,11 +11,11 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-
 	database, err := gorm.Open(sqlite.Open("data.db"), &gorm.Config{})
 
 	if err != nil {
-		panic("Failed to connect to database!")
+		fmt.Fprintln(os.Stderr, "Could not open db ->", err.Error())
+		os.Exit(1)
 	}
 
 	err = database.AutoMigrate(&Room{})
