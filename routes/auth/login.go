@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/pablouser1/AreYaCoding/helpers/res"
 	"github.com/pablouser1/AreYaCoding/helpers/tokens"
 	"github.com/pablouser1/AreYaCoding/models"
 )
@@ -13,14 +14,11 @@ func Login(c *gin.Context) {
 	if username != "" {
 		token, err := tokens.Create(username)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, models.ErrorRes{
-				Code: http.StatusInternalServerError,
-				Msg:  err.Error(),
-			})
+			res.Send(c, http.StatusInternalServerError, gin.H{}, err.Error())
 			return
 		}
 
-		c.JSON(http.StatusOK, models.Auth{
+		res.Send(c, http.StatusOK, models.Auth{
 			Token: token,
 		})
 	}

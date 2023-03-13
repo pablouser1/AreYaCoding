@@ -8,7 +8,7 @@ import (
 	"github.com/pablouser1/AreYaCoding/models"
 )
 
-func JwtAuthMiddleware() gin.HandlerFunc {
+func JwtAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		username, err := tokens.Verify(c.GetHeader("Authorization"))
 		if err != nil {

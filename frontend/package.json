@@ -1,0 +1,26 @@
+{
+  "name": "areyacoding-frontend",
+  "version": "0.0.1",
+  "description": "Frontend for Are Ya Coding, a real-time code collaboration app",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.59.2",
+    "typescript": "^4.9.5",
+    "vite": "^4.1.1",
+    "vite-plugin-solid": "^2.5.0"
+  },
+  "dependencies": {
+    "@solidjs/router": "^0.8.0",
+    "axios": "^1.3.4",
+    "bulma": "^0.9.4",
+    "bulmaswatch": "^0.8.1",
+    "solid-icons": "^1.0.4",
+    "solid-js": "^1.6.10"
+  }
+}

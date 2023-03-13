@@ -76,17 +76,14 @@ func (h *Hub) RemoveClient(client *Client) {
 
 // function to handle message based on type of message
 func (h *Hub) HandleMessage(message Message) {
-
 	//Check if the message is a type of "message"
-	if message.Type == "message" {
-		clients := h.clients[message.ID]
-		for client := range clients {
-			select {
-			case client.send <- message:
-			default:
-				close(client.send)
-				delete(h.clients[message.ID], client)
-			}
+	clients := h.clients[message.ID]
+	for client := range clients {
+		select {
+		case client.send <- message:
+		default:
+			close(client.send)
+			delete(h.clients[message.ID], client)
 		}
 	}
 }

@@ -46,7 +46,6 @@ func NewClient(id string, conn *websocket.Conn, hub *Hub) *Client {
 
 // Client goroutine to read messages from client
 func (c *Client) Read() {
-
 	defer func() {
 		c.hub.unregister <- c
 		c.Conn.Close()
@@ -132,7 +131,7 @@ func ServeWS(ctx *gin.Context, roomId string, hub *Hub) {
 	welcome := Message{
 		Type:    "message",
 		Sender:  username,
-		Content: "tonto el que lo lea",
+		Content: "hello",
 		ID:      roomId,
 	}
 

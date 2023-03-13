@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -28,12 +29,12 @@ func main() {
 	r := gin.Default()
 	r.SetTrustedProxies([]string{"127.0.0.1"})
 
+	r.Use(middlewares.Cors())
 	v1 := r.Group("/api/v1")
 	{
 		authG := v1.Group("/auth")
 		{
 			authG.POST("/login", auth.Login)
-			authG.GET("/test", auth.Test)
 		}
 
 		roomsG := v1.Group("/rooms")
@@ -41,12 +42,14 @@ func main() {
 			roomsG.GET("/", rooms.GetAll)
 			roomsG.POST("/", rooms.Create)
 			roomsG.GET("/:id", rooms.One)
-			roomsG.GET("/:id/ws", middlewares.JwtAuthMiddleware(), func(c *gin.Context) {
+			roomsG.GET("/:id/ws", middlewares.JwtAuth(), func(c *gin.Context) {
 				roomId := c.Param("id")
 				ws.ServeWS(c, roomId, hub)
 			})
 		}
 	}
+
+	r.NoRoute(gin.WrapH(http.FileServer(gin.Dir("frontend/dist", false))))
 
 	port := fmt.Sprintf(":%s", helpers.GetEnv("PORT", "8080"))
 
