@@ -5,6 +5,13 @@ build:
 	go build -ldflags "-s -w" .
 
 clean:
-	rm data.db
-	rm AreYaCoding
-	rm -R frontend/dist
+	rm -f data.db
+	rm -f AreYaCoding
+	rm -f AreYaCoding.zip
+	rm -rf frontend/dist
+
+package:
+	make clean
+	make build
+	cp .env.example .env
+	zip AreYaCoding.zip -r AreYaCoding frontend/dist .env
